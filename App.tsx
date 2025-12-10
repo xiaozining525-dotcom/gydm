@@ -26,6 +26,9 @@ const App: React.FC = () => {
 
   // Track Management: Store the timestamp when a track was last used
   const trackLastUsedTime = useRef<number[]>(new Array(MAX_TRACKS).fill(0));
+  
+  // Throttle Management: Track when a specific text was last spawned
+  const lastSpawnedMap = useRef<Map<string, number>>(new Map());
 
   // Initialize: Generate Stars & Check Video
   useEffect(() => {
@@ -108,6 +111,7 @@ const App: React.FC = () => {
   const spawnDanmu = useCallback((text: string, color: string = '#ffffff', font: string = FONT_OPTIONS[0].value) => {
     const track = getBestTrack();
     trackLastUsedTime.current[track] = Date.now();
+    lastSpawnedMap.current.set(text, Date.now());
 
     const newItem: DanmuItem = {
       id: Math.random().toString(36).substr(2, 9),
@@ -131,8 +135,17 @@ const App: React.FC = () => {
         const shouldSpawn = Math.random() > 0.3; 
         
         if (shouldSpawn) {
-            const randomItem = commentPool[Math.floor(Math.random() * commentPool.length)];
-            spawnDanmu(randomItem.text, randomItem.color, randomItem.font);
+            const now = Date.now();
+            // Filter: Only pick comments that haven't been shown in the last 10 seconds
+            const candidates = commentPool.filter(item => {
+                const lastTime = lastSpawnedMap.current.get(item.text) || 0;
+                return now - lastTime >= 10000;
+            });
+
+            if (candidates.length > 0) {
+                const randomItem = candidates[Math.floor(Math.random() * candidates.length)];
+                spawnDanmu(randomItem.text, randomItem.color, randomItem.font);
+            }
         }
       }
       
