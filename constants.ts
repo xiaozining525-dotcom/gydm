@@ -1,3 +1,4 @@
+
 import { DanmuItem, FontOption } from "./types";
 
 export const MAX_TRACKS = 12; // 稍微减少轨道数以防止过于拥挤
@@ -11,17 +12,9 @@ export const FONT_OPTIONS: FontOption[] = [
   { name: '草书手写', value: '"Long Cang", cursive' },
 ];
 
-export const INITIAL_COMMENTS: string[] = [
-  "先占个座～ 这个弹幕墙也太简洁好⽤了吧✨",
-  "这个星空背景好治愈啊 ✨",
-  "测试测试，看看弹幕能不能正常显示✅",
-  "字体居然可以换，太酷了！",
-  "坐等流星划过~ 🌠",
-  "谁懂！这种无门槛发弹幕的感觉太舒服了",
-  "祝大家心想事成！",
-  "路过打卡📌 希望这个弹幕墙能火起来",
-  "谁懂！这种无门槛发弹幕的感觉太舒服了"
-];
+// Empty initial comments as requested. 
+// The wall will be empty until data is fetched from the DB or user sends a message.
+export const INITIAL_COMMENTS: string[] = [];
 
 export const generateInitialDanmu = (text: string): DanmuItem => ({
   id: Math.random().toString(36).substr(2, 9),
