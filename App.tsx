@@ -218,6 +218,7 @@ const App: React.FC = () => {
         {/* Layer 2: Video (Fades in on load, covering the stars) */}
         <video 
             ref={videoRef}
+            src="/background.mp4"
             className={`absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-1000 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
             autoPlay 
             loop 
@@ -227,12 +228,11 @@ const App: React.FC = () => {
             onCanPlay={() => setVideoLoaded(true)}
             onLoadedData={() => setVideoLoaded(true)}
             onError={(e) => {
-                console.warn("Video failed to load, falling back to stars.", e.currentTarget.error);
+                const err = e.currentTarget.error;
+                console.warn("Video failed to load, falling back to stars.", err ? `Code: ${err.code}, Message: ${err.message}` : "Unknown error");
                 setVideoLoaded(false);
             }}
-        >
-            <source src="background.mp4" type="video/mp4" />
-        </video>
+        />
         
         {/* Overlay for better text contrast */}
         <div className="absolute inset-0 bg-black/20 z-0" />
