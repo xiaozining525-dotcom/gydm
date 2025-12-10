@@ -139,7 +139,7 @@ const App: React.FC = () => {
             // Filter: Only pick comments that haven't been shown in the last 10 seconds
             const candidates = commentPool.filter(item => {
                 const lastTime = lastSpawnedMap.current.get(item.text) || 0;
-                return now - lastTime >= 10000;
+                return now - lastTime >= 20000;
             });
 
             if (candidates.length > 0) {
