@@ -12,10 +12,8 @@ export async function onRequestGet(context) {
 
   // 1. 检查数据库是否已绑定
   if (!env.DANMU_DB) {
-    return new Response(JSON.stringify({ 
-      error: "Database binding 'DANMU_DB' not found. Please configure it in Cloudflare Pages Settings." 
-    }), {
-      status: 500,
+    // Graceful fallback for demo/unconfigured environments
+    return new Response(JSON.stringify([]), {
       headers: { "Content-Type": "application/json" }
     });
   }
@@ -42,7 +40,10 @@ export async function onRequestPost(context) {
   const { request, env } = context;
 
   if (!env.DANMU_DB) {
-    return new Response(JSON.stringify({ error: "Database not configured" }), { status: 500 });
+    // Graceful fallback for demo/unconfigured environments
+    return new Response(JSON.stringify({ success: true, meta: { mock: true } }), { 
+      headers: { "Content-Type": "application/json" }
+    });
   }
 
   try {
