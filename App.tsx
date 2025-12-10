@@ -43,8 +43,14 @@ const App: React.FC = () => {
     setStars(starArray);
 
     // 2. Check if video is already ready (e.g. cached)
-    if (videoRef.current && videoRef.current.readyState >= 3) {
-      setVideoLoaded(true);
+    if (videoRef.current) {
+        // Ensure muted is set for autoplay policy
+        videoRef.current.defaultMuted = true;
+        videoRef.current.muted = true;
+        
+        if (videoRef.current.readyState >= 3) {
+            setVideoLoaded(true);
+        }
     }
   }, []);
 
@@ -139,7 +145,7 @@ const App: React.FC = () => {
             // Filter: Only pick comments that haven't been shown in the last 10 seconds
             const candidates = commentPool.filter(item => {
                 const lastTime = lastSpawnedMap.current.get(item.text) || 0;
-                return now - lastTime >= 20000;
+                return now - lastTime >= 10000;
             });
 
             if (candidates.length > 0) {
@@ -212,7 +218,6 @@ const App: React.FC = () => {
         {/* Layer 2: Video (Fades in on load, covering the stars) */}
         <video 
             ref={videoRef}
-            src="/background.mp4" 
             className={`absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-1000 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
             autoPlay 
             loop 
@@ -222,10 +227,12 @@ const App: React.FC = () => {
             onCanPlay={() => setVideoLoaded(true)}
             onLoadedData={() => setVideoLoaded(true)}
             onError={(e) => {
-                console.warn("Video failed to load, falling back to stars.", e);
+                console.warn("Video failed to load, falling back to stars.", e.currentTarget.error);
                 setVideoLoaded(false);
             }}
-        />
+        >
+            <source src="background.mp4" type="video/mp4" />
+        </video>
         
         {/* Overlay for better text contrast */}
         <div className="absolute inset-0 bg-black/20 z-0" />

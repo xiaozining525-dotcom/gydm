@@ -10,47 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
     
-    <style>
-      /* Custom Animation for Danmu */
-      @keyframes floatLeft {
-        from {
-          transform: translateX(100vw);
-        }
-        to {
-          transform: translateX(-100%);
-        }
-      }
-      .animate-danmu {
-        animation-name: floatLeft;
-        animation-timing-function: linear;
-        animation-fill-mode: forwards;
-        will-change: transform;
-        white-space: nowrap;
-      }
-      
-      /* Starry Sky Animation */
-      @keyframes twinkle {
-        0%, 100% { opacity: 0.3; transform: scale(0.8); }
-        50% { opacity: 1; transform: scale(1.2); }
-      }
-      
-      @keyframes drift {
-        0% { transform: translateY(0px); }
-        100% { transform: translateY(-20px); }
-      }
-
-      .star {
-        position: absolute;
-        background: white;
-        border-radius: 50%;
-        animation: twinkle var(--duration, 3s) infinite ease-in-out alternate;
-      }
-
-      /* Hide scrollbar for clean UI */
-      body {
-        overflow: hidden;
-      }
-    </style>
   <script type="importmap">
 {
   "imports": {
