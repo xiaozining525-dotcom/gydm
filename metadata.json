@@ -1,0 +1,5 @@
+{
+  "name": "简易弹幕墙",
+  "description": "一个轻量级、可自定义的弹幕网站，支持背景管理和自动循环弹幕。",
+  "requestFramePermissions": []
+}
